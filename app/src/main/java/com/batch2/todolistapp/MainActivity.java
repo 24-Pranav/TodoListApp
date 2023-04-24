@@ -6,18 +6,21 @@ import android.app.FragmentTransaction;
 import android.app.Fragment;
 import android.app.FragmentManager;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-FragmentManager fm;
-FragmentTransaction ft;
-Spinner s;
-    private ArrayList<String> tasks;
-    private ArrayAdapter<String> adapter;
+public class MainActivity extends AppCompatActivity
+{
+    DBHelper db;
+    FragmentManager fm;
+    FragmentTransaction ft;
+    Spinner s;
+    public ArrayList<String> tasks;
+    public ArrayAdapter<String> adapter;
 
 
     @Override
@@ -29,22 +32,34 @@ Spinner s;
         setContentView(R.layout.activity_main);
         loadFragment(new TopBarFragment());
 
-        tasks = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, tasks);
+        db = new DBHelper(this);
+        tasks = db.fetchAll();
+        adapter = new ArrayAdapter<String>(this, R.layout.custom_row_layout, R.id.task_textview, tasks);
+
 
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                tasks.remove(position);
-                adapter.notifyDataSetChanged();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+                Toast.makeText(MainActivity.this,"Click Again To Delete Task",Toast.LENGTH_SHORT).show();
+                ImageView deleteButton = view.findViewById(R.id.delete_button);
+                deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        db.deleteTask(String.valueOf(tasks.get(position)));
+                        tasks.remove(position);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
     }
 
-    public void addTask(View view) {
+    public void addTask(View view)
+    {
         EditText editText = (EditText) findViewById(R.id.editText);
         String task = editText.getText().toString().trim();
         if (!task.isEmpty()) {
@@ -52,6 +67,7 @@ Spinner s;
             adapter.notifyDataSetChanged();
             editText.setText("");
         }
+        db.insertData(tasks);
     }
     public void loadFragment(Fragment fragment){
         fm=getFragmentManager();
