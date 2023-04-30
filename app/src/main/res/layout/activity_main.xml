@@ -11,10 +11,10 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:orientation="horizontal">
-
+        android:background="#EF9828">
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"

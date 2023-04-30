@@ -1,12 +1,8 @@
 <resources>
     <string name="app_name">TodoListApp</string>
-        <string-array name="list_items">
-        <item>All Lists</item>
-        <item>Default</item>
-        <item>Personal</item>
-        <item>Shopping</item>
-        <item>Wishlist</item>
-        <item>Work</item>
-        <item>Finished</item>
+    <string name="search">Searchbar</string>
+
+    <string-array name="spinner_data">
+
     </string-array>
 </resources>

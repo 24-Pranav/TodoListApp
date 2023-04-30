@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--    <item-->
+    <!--        android:id="@+id/menu_item_imageview"-->
+    <!--        android:title="ImageView"-->
+    <!--        app:showAsAction="always"-->
+    <!--        app:actionLayout="@layout/menu_item_imageview" />-->
+
+
+    <!--    <item-->
+    <!--        android:id="@+id/menu_item_spinner"-->
+    <!--        android:title="Spinner"-->
+    <!--        app:showAsAction="always"-->
+    <!--        app:actionLayout="@layout/menu_item_spinner" />-->
+
+    <!--    <item-->
+    <!--        android:id="@+id/menu_item_textview"-->
+    <!--        app:showAsAction="always"-->
+    <!--        android:title=" "-->
+    <!--        android:actionLayout="@layout/menu_item_blank"/>-->
+
+        <item
+            android:id="@+id/taskLists"
+            app:showAsAction="never"
+            app:actionViewClass="androidx.appcompat.widget.MenuPopupWindow$MenuDropDownListView"
+            android:title="Task Lists" />
+
+    <item
+        android:id="@+id/mode"
+        app:showAsAction="never"
+        app:actionViewClass="androidx.appcompat.widget.MenuPopupWindow$MenuDropDownListView"
+        android:title="Add in Batch Mode" />
+    <item
+        android:id="@+id/ads"
+        app:showAsAction="never"
+        app:actionViewClass="androidx.appcompat.widget.MenuPopupWindow$MenuDropDownListView"
+        android:title="Remove Ads" />
+
+    <item
+        android:id="@+id/apps"
+        app:showAsAction="never"
+        app:actionViewClass="androidx.appcompat.widget.MenuPopupWindow$MenuDropDownListView"
+        android:title="More Apps" />
+
+    <item
+        android:id="@+id/feedback"
+        app:showAsAction="never"
+        app:actionViewClass="androidx.appcompat.widget.MenuPopupWindow$MenuDropDownListView"
+        android:title="Send feedback" />
+    <item
+        android:id="@+id/follow"
+        app:showAsAction="never"
+        app:actionViewClass="androidx.appcompat.widget.MenuPopupWindow$MenuDropDownListView"
+        android:title="Follow us" />
+
+    <item
+        android:id="@+id/invite"
+        app:showAsAction="never"
+        app:actionViewClass="androidx.appcompat.widget.MenuPopupWindow$MenuDropDownListView"
+        android:title="Invite friends to the app" />
+
+    <item
+        android:id="@+id/settings"
+        app:showAsAction="never"
+        app:actionViewClass="androidx.appcompat.widget.MenuPopupWindow$MenuDropDownListView"
+        android:title="Settings" />
+
+
+
+
+</menu>
