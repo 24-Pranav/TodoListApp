@@ -16,9 +16,9 @@ import android.widget.*;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivity extends AppCompatActivity {
     ActionBar actionBar;
     DBHelper db;
     FragmentManager fm;
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity
     public ArrayList<String> tasks;
     public ArrayAdapter<String> adapter;
 
+    String category = "All Lists";
 //    private LinearLayout layout;
 
     @Override
@@ -34,10 +35,43 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
         loadFragment(new TopBarFragment());
+
+//        db = new DBHelper(this);
+//
+//        // get spinner and list view from the fragment
+//        FragmentManager fragmentManager = getFragmentManager();
+//        TopBarFragment fragment = (TopBarFragment) fragmentManager.findFragmentById(R.id.top_bar_fragment);
+//        s = fragment.getView().findViewById(R.id.spinner);
+//        listView = findViewById(R.id.listView);
+//
+//        // set up spinner listener to fetch data from the database
+//        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                String category = s.getSelectedItem().toString();
+//                if (category.equals("All Lists")) {
+//                    // Fetch all data from the database
+//                    List<String> items = db.getAllItems();
+//                    listView.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, items));
+//                } else {
+//                    // Fetch data for the selected category from the database
+//                    List<String> items = db.getItemsForCategory(category);
+//                    listView.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, items));
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                // Do nothing
+//            }
+//        });
+//    }
+
+//        loadFragment(new TopBarFragment());
 
 //        layout=findViewById(R.id.linearLayout);
 //        MenuInflater inflater = getMenuInflater();
@@ -81,7 +115,7 @@ public class MainActivity extends AppCompatActivity
 //        loadFragment(new TopBarFragment());
 
         db = new DBHelper(this);
-        tasks = db.fetchAll();
+        tasks = (ArrayList<String>) db.getItemsForCategory(category);
         adapter = new ArrayAdapter<String>(this, R.layout.custom_row_layout, R.id.task_textview, tasks);
 
 
@@ -89,13 +123,10 @@ public class MainActivity extends AppCompatActivity
         listView.setAdapter(adapter);
 
 
-
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-            {
-                Toast.makeText(MainActivity.this,"Click Again To Delete Task",Toast.LENGTH_SHORT).show();
+            public void onItemClick(android.widget.AdapterView<?> adapterView, android.view.View view, int position, long id) {
+                Toast.makeText(MainActivity.this, "Click Again To Delete Task", Toast.LENGTH_SHORT).show();
                 ImageView deleteButton = view.findViewById(R.id.delete_button);
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -108,6 +139,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
     }
+
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        getMenuInflater().inflate(R.menu.actionbarr_main, menu);
 //        return true;
@@ -124,21 +156,24 @@ public class MainActivity extends AppCompatActivity
 //                return super.onOptionsItemSelected(item);
 //        }
 //    }
-    public void addTask(View view)
-    {
-        EditText editText = (EditText) findViewById(R.id.editText);
-        String task = editText.getText().toString().trim();
-        if (!task.isEmpty()) {
-            tasks.add(task);
-            adapter.notifyDataSetChanged();
-            editText.setText("");
+        public void addTask (View view)
+        {
+            EditText editText = (EditText) findViewById(R.id.editText);
+            String task = editText.getText().toString().trim();
+            if (!task.isEmpty()) {
+                tasks.add(task);
+                adapter.notifyDataSetChanged();
+                editText.setText("");
+            }
+            db.insertData(tasks);
         }
-        db.insertData(tasks);
+
+        public void loadFragment (Fragment fragment){
+            fm = getFragmentManager();
+            ft = fm.beginTransaction();
+            ft.replace(R.id.linearLayout, fragment);
+            ft.commit();
+
+//        db=new DBHelper(this);
+        }
     }
-    public void loadFragment(Fragment fragment){
-        fm=getFragmentManager();
-        ft=fm.beginTransaction();
-        ft.replace(R.id.linearLayout,fragment);
-        ft.commit();
-    }
-}

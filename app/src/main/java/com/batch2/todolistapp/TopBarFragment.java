@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -29,6 +30,19 @@ Spinner s;
         ArrayAdapter<String>adapter=new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item,new String[]{"All Lists","Default","Personal","Shopping","Wishlists","Work","Finished"});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s.setAdapter(adapter);
+
+        s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selected = (String) parent.getItemAtPosition(position);
+                //TODO: Fetch items from database based on selected category and display in list view
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
 
         SearchView search = v.findViewById(R.id.search_view);
         search.setOnClickListener(new View.OnClickListener() {
