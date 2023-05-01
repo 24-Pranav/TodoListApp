@@ -3,6 +3,8 @@ package com.batch2.todolistapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -11,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -27,6 +30,8 @@ public class MainActivity extends AppCompatActivity
     Work w;
     Finished f;
     Shopping shopping;
+
+    ImageView more;
     public ArrayList<String> tasks;
     public ArrayAdapter<String> adapterlist;
     public ArrayAdapter<String> adapterspin;
@@ -43,7 +48,42 @@ public class MainActivity extends AppCompatActivity
         et = findViewById(R.id.editText);
         lv = findViewById(R.id.listView);
         s = findViewById(R.id.spinner);
-        adapterspin=new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,new String[]{"Default_list","Personal","Shopping","Wishlists","Work","Finished"});
+        more=findViewById(R.id.more);
+
+        more.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    // Show the PopupMenu on long press
+                    PopupMenu popupMenu = new PopupMenu(MainActivity.this, more);
+                    popupMenu.inflate(R.menu.more_menu);
+
+//                    // Step 5: Handle menu item selection
+//                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//
+//                        @Override
+//                        public boolean onMenuItemClick(MenuItem item) {
+//                            switch (item.getItemId()) {
+//                                case R.id.menu_item_share:
+//                                    // Handle "Share" item click
+//                                    return true;
+//                                case R.id.menu_item_delete:
+//                                    // Handle "Delete" item click
+//                                    return true;
+//                                default:
+//                                    return false;
+//                            }
+//                        }
+//                    });
+
+                    popupMenu.show();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        adapterspin=new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item,new String[]{"All Lists","Default","Personal","Shopping","Wishlists","Work","Finished"});
         adapterspin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         s.setAdapter(adapterspin);
         s.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -54,7 +94,12 @@ public class MainActivity extends AppCompatActivity
 
                 switch (table_name)
                 {
-                    case "Default_list":
+                    case "All Lists":
+//                        db = new DBHelp(MainActivity.this);
+//                        tasks = db.fetchAll();
+//                        break;
+
+                    case "Default":
                         db = new DBHelp(MainActivity.this);
                         tasks = db.fetchAll();
                         break;
