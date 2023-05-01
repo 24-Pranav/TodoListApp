@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TodoListApp</string>
+    <string name="app_name">To Do List</string>
     <string name="search">Searchbar</string>
 
     <string-array name="spinner_data">

@@ -7,60 +7,103 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#EF9828"
-        android:orientation="horizontal">
+        android:backgroundTint="#EF9828"
+        android:orientation="horizontal"
+        android:id="@+id/top_bar_fragment">
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher"
+                />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_margin="15dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <!--            <SearchView-->
+            <!--                android:id="@+id/search_view"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="50dp"-->
+            <!--                android:layout_marginTop="5dp"-->
+            <!--                android:queryHint="Search"/>-->
+
+            <ImageView
+                android:id="@+id/more"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/density_medium"
+                android:layout_marginTop="12dp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:background="#615B5B"/>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <ListView
-        android:background="#DBBC8C"
-        android:id="@+id/listView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_above="@+id/editText"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp" />
-<View
-    android:layout_width="match_parent"
-    android:layout_height="3dp"
-    android:layout_alignParentBottom="true"
-    android:layout_marginBottom="60dp"
-    android:background="#615B5B"/>
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dp"
-        android:hint="\tAdd a task"
-        android:background="#EF9828"
-        android:inputType="text"
-        android:maxLines="1" />
+        <ListView
+            android:background="#DBBC8C"
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/editText"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="60dp"
+            android:background="#615B5B"/>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignBottom="@+id/editText"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/add_icon"
-        android:layout_marginBottom="60dp"
-        android:onClick="addTask" />
-</RelativeLayout>
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dp"
+            android:hint="\tAdd a task"
+            android:background="#EF9828"
+            android:inputType="text"
+            android:maxLines="1" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignBottom="@+id/editText"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/add_icon"
+            android:layout_marginBottom="60dp"
+            android:onClick="addTask" />
+    </RelativeLayout>
 
 </LinearLayout>
