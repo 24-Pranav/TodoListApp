@@ -25,11 +25,6 @@ public class MainActivity extends AppCompatActivity
     public static String table_name;
     ListView lv;
     DBHelp db;
-    Personal p;
-    Wishlist wl;
-    Work w;
-    Finished f;
-    Shopping shopping;
 
     ImageView more;
     public ArrayList<String> tasks;
@@ -51,11 +46,6 @@ public class MainActivity extends AppCompatActivity
         more=findViewById(R.id.more);
 
         db = new DBHelp(MainActivity.this);
-        p = new Personal(MainActivity.this);
-        shopping = new Shopping(MainActivity.this);
-        wl = new Wishlist(MainActivity.this);
-        w = new Work(MainActivity.this);
-        f = new Finished(MainActivity.this);
 
         more.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -102,35 +92,35 @@ public class MainActivity extends AppCompatActivity
                 switch (table_name)
                 {
                     case "All Lists":
-                        tasks = db.fetchAll();
-                        tasks.addAll(p.fetchAll());
-                        tasks.addAll(shopping.fetchAll());
-                        tasks.addAll(wl.fetchAll());
-                        tasks.addAll(w.fetchAll());
+                        tasks = db.fetchAll("default_list");
+                        tasks.addAll(db.fetchAll("personal"));
+                        tasks.addAll(db.fetchAll("shopping"));
+                        tasks.addAll(db.fetchAll("wishlist"));
+                        tasks.addAll(db.fetchAll("work"));
                         break;
 
                     case "Default":
-                        tasks = db.fetchAll();
+                        tasks = db.fetchAll("default_list");
                         break;
 
                     case "Personal":
-                        tasks = p.fetchAll();
+                        tasks = db.fetchAll("personal");
                         break;
 
                     case "Shopping":
-                        tasks = shopping.fetchAll();
+                        tasks = db.fetchAll("shopping");
                         break;
 
                     case "Wishlists":
-                        tasks = wl.fetchAll();
+                        tasks = db.fetchAll("wishlist");
                         break;
 
                     case "Work":
-                        tasks = w.fetchAll();
+                        tasks = db.fetchAll("work");
                         break;
 
                     case "Finished":
-                        tasks = f.fetchAll();
+                        tasks = db.fetchAll("finished");
                         break;
                 }
                 adapterlist = new ArrayAdapter<String>(getApplicationContext(),R.layout.custom_row_layout, R.id.task_textview,tasks);
@@ -157,32 +147,33 @@ public class MainActivity extends AppCompatActivity
                         switch (table_name)
                         {
                             case "Default":
-                                db.deleteTask(String.valueOf(tasks.get(position)));
+                                db.deleteTask(String.valueOf(tasks.get(position)),"default_list");
                                 break;
 
                             case "Personal":
-                                p.deleteTask(String.valueOf(tasks.get(position)));
+                                db.deleteTask(String.valueOf(tasks.get(position)),"personal");
                                 break;
 
                             case "Shopping":
-                                shopping.deleteTask(String.valueOf(tasks.get(position)));
+                                db.deleteTask(String.valueOf(tasks.get(position)),"shopping");
                                 break;
 
                             case "Wishlists":
-                                wl.deleteTask(String.valueOf(tasks.get(position)));
+                                db.deleteTask(String.valueOf(tasks.get(position)),"wishlist");
                                 break;
 
                             case "Work":
-                                w.deleteTask(String.valueOf(tasks.get(position)));
+                                db.deleteTask(String.valueOf(tasks.get(position)),"work");
                                 break;
                         }
                         if(table_name.equals("Finished"))
                         {
-                            f.deleteTask(String.valueOf(tasks.get(position)));
+                            db.deleteTask(String.valueOf(tasks.get(position)),"finished");
+                            tasks.remove(position);
                         }
                         else
                         {
-                            f.insertData(tasks.remove(position));
+                            db.insertData(tasks.remove(position),"finished");
                         }
                         adapterlist.notifyDataSetChanged();
                         return;
@@ -210,28 +201,28 @@ public class MainActivity extends AppCompatActivity
         {
             switch (table_name) {
                 case "Default":
-                    db.insertData(task);
-                    tasks = db.fetchAll();
+                    db.insertData(task,"default_list");
+                    tasks = db.fetchAll("default_list");
                     break;
 
                 case "Personal":
-                    p.insertData(task);
-                    tasks = p.fetchAll();
+                    db.insertData(task,"personal");
+                    tasks = db.fetchAll("personal");
                     break;
 
                 case "Shopping":
-                    shopping.insertData(task);
-                    tasks = shopping.fetchAll();
+                    db.insertData(task,"shopping");
+                    tasks = db.fetchAll("shopping");
                     break;
 
                 case "Wishlists":
-                    wl.insertData(task);
-                    tasks = wl.fetchAll();
+                    db.insertData(task,"wishlist");
+                    tasks = db.fetchAll("wishlist");
                     break;
 
                 case "Work":
-                    w.insertData(task);
-                    tasks = w.fetchAll();
+                    db.insertData(task,"work");
+                    tasks = db.fetchAll("work");
                     break;
             }
             adapterlist = new ArrayAdapter<String>(getApplicationContext(), R.layout.custom_row_layout, R.id.task_textview, tasks);

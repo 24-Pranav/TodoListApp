@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class DBHelp extends SQLiteOpenHelper {
     private static final String DB_NAME = "todolist.db";
-    private static String TABLE_NAME = "default_list";
+    private static String TABLE_NAME;
 
     public DBHelp(Context context) {
         super(context, DB_NAME, null, 1);
@@ -29,13 +29,17 @@ public class DBHelp extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertData(String s) {
+    public void insertData(String s,String tname)
+    {
+        TABLE_NAME = tname;
         SQLiteDatabase sqdb = this.getWritableDatabase();
         sqdb.execSQL("INSERT INTO "+TABLE_NAME+" VALUES('"+s+"')");
         sqdb.close();
     }
 
-    public ArrayList<String> fetchAll() {
+    public ArrayList<String> fetchAll(String tname)
+    {
+        TABLE_NAME = tname;
         ArrayList<String> tasks = new ArrayList<String>();
         SQLiteDatabase sqdb = this.getWritableDatabase();
         onCreate(sqdb);
@@ -52,7 +56,7 @@ public class DBHelp extends SQLiteOpenHelper {
     }
 
 
-    public void deleteTask(String s)
+    public void deleteTask(String s,String tname)
     {
         SQLiteDatabase sqdb = this.getWritableDatabase();
         sqdb.execSQL("delete from "+TABLE_NAME+" where tasks='"+s+"'");
