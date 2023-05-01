@@ -50,6 +50,13 @@ public class MainActivity extends AppCompatActivity
         s = findViewById(R.id.spinner);
         more=findViewById(R.id.more);
 
+        db = new DBHelp(MainActivity.this);
+        p = new Personal(MainActivity.this);
+        shopping = new Shopping(MainActivity.this);
+        wl = new Wishlist(MainActivity.this);
+        w = new Work(MainActivity.this);
+        f = new Finished(MainActivity.this);
+
         more.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -95,37 +102,34 @@ public class MainActivity extends AppCompatActivity
                 switch (table_name)
                 {
                     case "All Lists":
-//                        db = new DBHelp(MainActivity.this);
-//                        tasks = db.fetchAll();
-//                        break;
+                        tasks = db.fetchAll();
+                        tasks.addAll(p.fetchAll());
+                        tasks.addAll(shopping.fetchAll());
+                        tasks.addAll(wl.fetchAll());
+                        tasks.addAll(w.fetchAll());
+                        break;
 
                     case "Default":
-                        db = new DBHelp(MainActivity.this);
                         tasks = db.fetchAll();
                         break;
 
                     case "Personal":
-                        p = new Personal(MainActivity.this);
                         tasks = p.fetchAll();
                         break;
 
                     case "Shopping":
-                        shopping = new Shopping(MainActivity.this);
                         tasks = shopping.fetchAll();
                         break;
 
                     case "Wishlists":
-                        wl = new Wishlist(MainActivity.this);
                         tasks = wl.fetchAll();
                         break;
 
                     case "Work":
-                        w = new Work(MainActivity.this);
                         tasks = w.fetchAll();
                         break;
 
                     case "Finished":
-                        f = new Finished(MainActivity.this);
                         tasks = f.fetchAll();
                         break;
                 }
@@ -152,7 +156,7 @@ public class MainActivity extends AppCompatActivity
                     {
                         switch (table_name)
                         {
-                            case "Default_list":
+                            case "Default":
                                 db.deleteTask(String.valueOf(tasks.get(position)));
                                 break;
 
@@ -171,12 +175,15 @@ public class MainActivity extends AppCompatActivity
                             case "Work":
                                 w.deleteTask(String.valueOf(tasks.get(position)));
                                 break;
-
-                            case "Finished":
-                                f.deleteTask(String.valueOf(tasks.get(position)));
-                                break;
                         }
-                        tasks.remove(position);
+                        if(table_name.equals("Finished"))
+                        {
+                            f.deleteTask(String.valueOf(tasks.get(position)));
+                        }
+                        else
+                        {
+                            f.insertData(tasks.remove(position));
+                        }
                         adapterlist.notifyDataSetChanged();
                         return;
                     }
@@ -190,14 +197,19 @@ public class MainActivity extends AppCompatActivity
     public void addTask(View view)
     {
         String task = et.getText().toString();
-        if(task.equals(""))
+        if (table_name.equals("Finished"))
+        {
+            Toast.makeText(this,"Here You Only View An Delete Your Deleted Tasks From Other List",Toast.LENGTH_LONG).show();
+        }
+        else if(task.equals(""))
         {
             Toast.makeText(MainActivity.this,"Please Type Before Add",Toast.LENGTH_SHORT).show();
         }
+
         else
         {
             switch (table_name) {
-                case "Default_list":
+                case "Default":
                     db.insertData(task);
                     tasks = db.fetchAll();
                     break;
@@ -220,11 +232,6 @@ public class MainActivity extends AppCompatActivity
                 case "Work":
                     w.insertData(task);
                     tasks = w.fetchAll();
-                    break;
-
-                case "Finished":
-                    f.insertData(task);
-                    tasks = f.fetchAll();
                     break;
             }
             adapterlist = new ArrayAdapter<String>(getApplicationContext(), R.layout.custom_row_layout, R.id.task_textview, tasks);
