@@ -137,7 +137,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onItemClick(android.widget.AdapterView<?> adapterView, android.view.View view, int position, long id)
             {
-                Toast.makeText(MainActivity.this, "Click Again To Delete Task", Toast.LENGTH_SHORT).show();
+                if(table_name.equals("All Lists"))
+                {
+                    Toast.makeText(MainActivity.this, "Here You Only View Your All Tasks From All Other List\nYou Can Update It From Main List", Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "Click Again To Delete Task", Toast.LENGTH_SHORT).show();
+                }
+
                 ImageView deleteButton = view.findViewById(R.id.delete_button);
                 deleteButton.setOnClickListener(new View.OnClickListener()
                 {
@@ -171,7 +179,7 @@ public class MainActivity extends AppCompatActivity
                             db.deleteTask(String.valueOf(tasks.get(position)),"finished");
                             tasks.remove(position);
                         }
-                        else
+                        else if(table_name.equals("Work") || table_name.equals("Default") || table_name.equals("Personal") || table_name.equals("Shopping") || table_name.equals("Wishlist"))
                         {
                             db.insertData(tasks.remove(position),"finished");
                         }
@@ -191,6 +199,10 @@ public class MainActivity extends AppCompatActivity
         if (table_name.equals("Finished"))
         {
             Toast.makeText(this,"Here You Only View An Delete Your Deleted Tasks From Other List",Toast.LENGTH_LONG).show();
+        }
+        else if(table_name.equals("All Lists"))
+        {
+            Toast.makeText(MainActivity.this,"Here You Only View Your All Tasks From All Other List\nYou Can Update It From Main List",Toast.LENGTH_LONG).show();
         }
         else if(task.equals(""))
         {
