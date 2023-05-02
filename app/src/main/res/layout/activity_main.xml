@@ -38,13 +38,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>
 
-            <!--            <SearchView-->
-            <!--                android:id="@+id/search_view"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginStart="50dp"-->
-            <!--                android:layout_marginTop="5dp"-->
-            <!--                android:queryHint="Search"/>-->
 
             <ImageView
                 android:id="@+id/more"
@@ -55,8 +48,23 @@
                 android:layout_marginTop="12dp" />
 
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#615B5B"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+
+        <SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:queryHint="Search your list here"
+            android:iconifiedByDefault="false"/>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
