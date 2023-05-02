@@ -1,7 +1,9 @@
 package com.batch2.todolistapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -14,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.RatingBar;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -31,6 +35,10 @@ public class MainActivity extends AppCompatActivity
     public ArrayAdapter<String> adapterlist;
     public ArrayAdapter<String> adapterspin;
     EditText et;
+    SearchView searchView;
+    RatingBar ratingBar;
+    EditText editText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,21 @@ public class MainActivity extends AppCompatActivity
         s = findViewById(R.id.spinner);
         more=findViewById(R.id.more);
 
+        searchView=findViewById(R.id.search_view);
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                adapterlist.getFilter().filter(s);
+                return true;
+            }
+        });
         db = new DBHelp(MainActivity.this);
 
         more.setOnTouchListener(new View.OnTouchListener() {
@@ -55,23 +78,48 @@ public class MainActivity extends AppCompatActivity
                     PopupMenu popupMenu = new PopupMenu(MainActivity.this, more);
                     popupMenu.inflate(R.menu.more_menu);
 
-//                    // Step 5: Handle menu item selection
-//                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//
-//                        @Override
-//                        public boolean onMenuItemClick(MenuItem item) {
-//                            switch (item.getItemId()) {
-//                                case R.id.menu_item_share:
-//                                    // Handle "Share" item click
-//                                    return true;
-//                                case R.id.menu_item_delete:
-//                                    // Handle "Delete" item click
-//                                    return true;
-//                                default:
-//                                    return false;
-//                            }
-//                        }
-//                    });
+                    // Step 5: Handle menu item selection
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.feedback:
+                                    AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+
+                                    View v1=getLayoutInflater().inflate(R.layout.feedback_rating,null);
+
+                                     ratingBar=v1.findViewById(R.id.ratingbar);
+//                                     editText=v1.findViewById(R.id.edit);
+
+                                    builder.setView(v1);
+
+                                    builder.setPositiveButton("Send", null);
+                                    builder.setNegativeButton("Cancel", null);
+
+                                    AlertDialog dialog=builder.create();
+                                    dialog.show();
+                                    return true;
+
+                                case R.id.invite:
+                                    String message="Please check out our app once";
+                                    String title="Invite Friends";
+                                    String link = "https://www.example.com/myapp";
+                                    openShareIntent(message,title,link);
+                                    // Handle "Delete" item click
+                                    return true;
+
+                                case R.id.apps:
+                                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                                    intent.addCategory(Intent.CATEGORY_APP_MARKET);
+                                    startActivity(intent);
+                                    return true;
+
+                                default:
+                                    return false;
+                            }
+                        }
+                    });
 
                     popupMenu.show();
                     return true;
@@ -191,6 +239,15 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+    }
+    private void openShareIntent(String message,String title,String link){
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, link);
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, title);
+
+        startActivity(Intent.createChooser(shareIntent, "Invite Friends via"));
     }
 
     public void addTask(View view)
