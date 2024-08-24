@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">To Do List</string>
     <string name="search">Searchbar</string>
+    <string name="tadd_a_task">\tAdd a task</string>
+    <string name="todo">TODO</string>
 
     <string-array name="spinner_data">
 

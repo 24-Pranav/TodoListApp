@@ -3,7 +3,9 @@ package com.batch2.todolistapp;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -17,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.RatingBar;
-import android.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity
     EditText editText;
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity
                     // Step 5: Handle menu item selection
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
+                        @SuppressLint("NonConstantResourceId")
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
@@ -99,6 +103,11 @@ public class MainActivity extends AppCompatActivity
 
                                     AlertDialog dialog=builder.create();
                                     dialog.show();
+                                    return true;
+
+                                case R.id.follow:
+                                    Intent intent1 = new Intent(Intent.ACTION_VIEW , Uri.parse("https://www.instagram.com/aditya_salvant_as?igsh=MXFscnRzZ2Jsbng3aQ=="));
+                                    startActivity(intent1);
                                     return true;
 
                                 case R.id.invite:
@@ -232,10 +241,8 @@ public class MainActivity extends AppCompatActivity
                             db.insertData(tasks.remove(position),"finished");
                         }
                         adapterlist.notifyDataSetChanged();
-                        return;
                     }
                 });
-                return;
             }
         });
 

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class DBHelp extends SQLiteOpenHelper {
     private static final String DB_NAME = "todolist.db";
     private static String TABLE_NAME;
+    private static String[] tb= {"default_list","personal","shopping","wishlist","work","finished"};
 
     public DBHelp(Context context) {
         super(context, DB_NAME, null, 1);
@@ -18,15 +19,18 @@ public class DBHelp extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db)
     {
-        String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME +
-                " (tasks TEXT)";
-        db.execSQL(CREATE_TABLE);
+        for(String a :tb){
+            String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " + a + " (tasks TEXT)";
+            db.execSQL(CREATE_TABLE);
+        }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(db);
+        for(String a :tb) {
+            db.execSQL("DROP TABLE IF EXISTS " + a);
+            onCreate(db);
+        }
     }
 
     public void insertData(String s,String tname)
@@ -58,8 +62,10 @@ public class DBHelp extends SQLiteOpenHelper {
 
     public void deleteTask(String s,String tname)
     {
+        TABLE_NAME = tname;
         SQLiteDatabase sqdb = this.getWritableDatabase();
         sqdb.execSQL("delete from "+TABLE_NAME+" where tasks='"+s+"'");
+        sqdb.close();
     }
 }
 

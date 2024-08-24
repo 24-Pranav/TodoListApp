@@ -20,11 +20,11 @@
     <!--        android:title=" "-->
     <!--        android:actionLayout="@layout/menu_item_blank"/>-->
 
-        <item
-            android:id="@+id/taskLists"
-            app:showAsAction="never"
-            app:actionViewClass="androidx.appcompat.widget.MenuPopupWindow$MenuDropDownListView"
-            android:title="Task Lists" />
+    <item
+        android:id="@+id/taskLists"
+        app:showAsAction="never"
+        app:actionViewClass="androidx.appcompat.widget.MenuPopupWindow$MenuDropDownListView"
+        android:title="Task Lists" />
 
     <item
         android:id="@+id/mode"
